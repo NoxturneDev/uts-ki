@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('jadwals', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->integer('jam_pelajaran_id');
-            $table->integer('mata_pelajaran_id');
-            $table->tinyInteger('parallel_id');
-            $table->integer('teacher_id');
+            $table->foreignId('jam_pelajaran_id')->constrained('jam_pelajarans')->onDelete('cascade');
+            $table->unsignedBigInteger('mata_pelajaran_id')->constrained('mata_pelajarans')->onDelete('cascade');
+            $table->foreignId('parallel_id')->constrained('parallels')->onDelete('cascade');
+            $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');  
         });
     }
 

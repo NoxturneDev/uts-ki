@@ -12,7 +12,7 @@ class EncryptionHelper
     public static function encrypt($data)
     {
         $key = env('KEY_ENCRYPT', 'defaultkey');  // Use the key from the .env file
-        return Crypt::encryptString($data, false);  // Encrypt data with the key
+        return Crypt::encryptString($data);  // Encrypt data with the key
     }
 
     /**
