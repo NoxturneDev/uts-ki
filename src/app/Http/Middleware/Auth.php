@@ -18,7 +18,7 @@ class Auth
     {
         $token = $request->bearerToken();
         $teacher = Teacher::where('secret_token', $token)->first();
-        if (!$client){
+        if (!$teacher){
             return response()->json([
                 'message' => 'Unathorized'
             ], 401);

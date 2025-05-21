@@ -36,6 +36,9 @@ class TeacherResource extends Resource
                 Forms\Components\TextInput::make('address')
                     ->maxLength(255)
                     ->default(null),
+                Forms\Components\TextInput::make('secret_token')
+                    ->label('Token')
+                    ->visibleOn('edit'),
             ]);
     }
 

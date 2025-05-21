@@ -23,18 +23,26 @@ class JadwalResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('jam_pelajaran_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('mata_pelajaran_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('parallel_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('teacher_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('jam_pelajaran_id')
+                    ->label('Jam Pelajaran')
+                    ->relationship('jamPelajaran', 'jam_ke')
+                    ->searchable()
+                    ->required(),
+                Forms\Components\Select::make('mata_pelajaran_id')
+                    ->label('Mata Pelajaran')
+                    ->relationship('mataPelajaran', 'name')
+                    ->searchable()
+                    ->required(),
+                Forms\Components\Select::make('parallel_id')
+                    ->label('Paralel Kelas')
+                    ->relationship('parallel', 'name')
+                    ->searchable()
+                    ->required(),
+                Forms\Components\Select::make('teacher_id')
+                    ->label('Guru')
+                    ->relationship('teacher', 'name')
+                    ->searchable()
+                    ->required(),
             ]);
     }
 
@@ -42,25 +50,42 @@ class JadwalResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                Tables\Columns\TextColumn::make('teacher.name')
+                    ->label('Guru')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('mataPelajaran.name')
+                    ->label('Mata Pelajaran')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('jam_pelajaran_id')
-                    ->numeric()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('jamPelajaran.jam_ke')
+                    ->label('Jam Pelajaran Ke')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('mata_pelajaran_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('parallel.name')
+                    ->label('Parallel Kelas')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('parallel_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('jamPelajaran.day_value')
+                    ->label('Hari')
+                    ->sortable()
+                    ->formatStateUsing(function ($state) {
+                        return match ($state) {
+                            1 => 'Senin',
+                            2 => 'Selasa',
+                            3 => 'Rabu',
+                            4 => 'Kamis',
+                            5 => 'Jumat',
+                            6 => 'Sabtu',
+                            7 => 'Minggu',
+                            default => 'Tidak diketahui',
+                        };
+                    }),
+                Tables\Columns\TextColumn::make('jamPelajaran.startTime')
+                    ->label('Mulai')
+                    ->time()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('teacher_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('jamPelajaran.finishTime')
+                    ->label('Selesai')
+                    ->time()
                     ->sortable(),
             ])
             ->filters([
