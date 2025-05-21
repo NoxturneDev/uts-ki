@@ -49,8 +49,20 @@ class JamPelajaranResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('day_value')
-                    ->numeric()
-                    ->sortable(),
+                    ->label('Hari')
+                    ->sortable()
+                    ->formatStateUsing(function ($state) {
+                        return match ($state) {
+                            1 => 'Senin',
+                            2 => 'Selasa',
+                            3 => 'Rabu',
+                            4 => 'Kamis',
+                            5 => 'Jumat',
+                            6 => 'Sabtu',
+                            7 => 'Minggu',
+                            default => 'Tidak diketahui',
+                        };
+                    }),
                 Tables\Columns\TextColumn::make('jam_ke')
                     ->numeric()
                     ->sortable(),
