@@ -118,13 +118,13 @@ class JadwalResource extends Resource
         ];
     }
 
-    public static function canViewAny(): bool
-    {
-        return Auth::user()?->hasRole('teacher');
-    }
+    // public static function canViewAny(): bool
+    // {
+    //     return Auth::user()?->hasRole(['super-admin', 'admin', 'teacher']);
+    // }
 
-    public static function canView(Model $record): bool
-    {
-        return Auth::user()?->hasRole('teacher');
-    }
+    // public static function canView(Model $record): bool
+    // {
+    //     return Auth::user()?->hasRole(['super-admin', 'admin', 'teacher']);
+    // }
 }
